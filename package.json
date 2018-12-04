@@ -2,7 +2,10 @@
   "name": "stripe",
   "version": "0.1.0",
   "private": true,
+  "main": "Server/server.js",
+  "proxy": "http://localhost:3005",
   "dependencies": {
+    "axios": "^0.18.0",
     "express": "^4.16.4",
     "express-session": "^1.15.6",
     "react": "^16.6.3",
