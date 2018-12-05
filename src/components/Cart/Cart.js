@@ -1,21 +1,24 @@
-import React, { Component } from "react"
+import React from "react"
 
-class Cart extends Component{
-    constructor() {
-        super()
+import CartItem from "../CartItem/CartItem"
+import "./Cart.css"
 
-        this.state = {
-            cart: []
-        }
+function Cart(props) {
+    const className = props.cartShow ? "cart_display" : "cart_display_none"
+    if(props.cartArray.length) {
+        var cartItems = props.cartArray.map(cartItem => {
+            return (
+                <CartItem  key={cartItem.id} cartItem={cartItem}/>
+            )
+        })
     }
-
-    render() {
-        return (
-            <div>
-                Cart
-            </div>
-        )
-    }
+    return (
+        <div className={className}>
+        {cartItems}
+        <p>Subtotal: 0.00</p>
+        <p>Total: 0.00</p>
+        </div>
+    )
 }
 
 export default Cart

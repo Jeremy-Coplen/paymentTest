@@ -2,6 +2,8 @@ import React, { Component } from "react"
 import axios from "axios"
 
 import Product from "../Product/Product"
+import Cart from "../Cart/Cart"
+import cartIcon from "../../Images/cart.png"
 
 class Shop extends Component{
     constructor() {
@@ -9,7 +11,10 @@ class Shop extends Component{
 
         this.state = {
             products: [],
-            cart: []
+            cart: [],
+            cartWidth: 0,
+            cartShow: false,
+            total: 0.00
         }
     }
 
@@ -43,6 +48,12 @@ class Shop extends Component{
         }
     }
 
+    toggleShow = () => {
+        this.setState({
+            cartShow: !this.state.cartShow
+        })
+    }
+
     render() {
         console.log(this.state.cart)
         if(this.state.products.length) {
@@ -54,7 +65,18 @@ class Shop extends Component{
         }
         return (
             <div>
+                <div>
+                <img  onClick={this.toggleShow} src={cartIcon} alt=""/>
+                <p>${this.state.total.toFixed(2)}</p>
+                </div>
+                <div>
                 {products}
+                <Cart 
+                cartWidth={this.state.cartWidth} 
+                cartShow={this.state.cartShow} 
+                cartArray={this.state.cart}
+                total={this.state.total}/>
+                </div>
             </div>
         )
     }
