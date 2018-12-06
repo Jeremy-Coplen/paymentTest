@@ -13,7 +13,8 @@ function Cart(props) {
         })
     }
     return (
-        <div className={className}>
+        <div className={className} style={{width: props.cartWidth}}>
+        <button onClick={() => props.closeCart()}>X</button>
         {cartItems}
         <p>Subtotal: 0.00</p>
         <p>Total: 0.00</p>

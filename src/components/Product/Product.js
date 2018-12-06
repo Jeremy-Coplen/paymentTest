@@ -1,9 +1,11 @@
 import React from "react"
 
+import "./Product.css"
+
 function Product(props) {
     const {product} = props
     return (
-        <div>
+        <div className="product">
             <img src={product.img} alt=""/>
             <p>{product.name}</p>
             <p>${product.price}</p>
