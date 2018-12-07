@@ -15,6 +15,7 @@ class Shop extends Component {
             products: [],
             cart: [],
             cartShow: false,
+            subTotal: 0.00,
             total: 0.00
         }
     }
@@ -37,7 +38,7 @@ class Shop extends Component {
             arr.push(newProduct)
             this.setState({
                 cart: arr
-            })
+            }, this.cacluateSubTotal)
         }
         else {
             let newProduct = arr[index]
@@ -45,7 +46,7 @@ class Shop extends Component {
             arr[index] = newProduct
             this.setState({
                 cart: arr
-            })
+            }, this.cacluateSubTotal)
         }
     }
 
@@ -63,7 +64,21 @@ class Shop extends Component {
         document.getElementById("cart_container").style.width = "0"
     }
 
+    cacluateSubTotal = () => {
+        const reducer = (total, current) => total + (current.price * current.qty)
+        this.setState({
+            subTotal: this.state.cart.reduce(reducer, 0),
+        }, this.calculateTotal)
+    }
+    
+    calculateTotal = () => {
+        this.setState({
+            total: this.state.subTotal * 1.047
+        })
+    }
+
     render() {
+        console.log("cart", this.state.cart, "sub", this.state.subTotal, "tot", this.state.total)
         const className = this.state.cartShow ? "icon_total_container_none" : "icon_total_container"
         if (this.state.products.length) {
             var products = this.state.products.map(product => {
