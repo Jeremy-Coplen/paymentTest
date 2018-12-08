@@ -1,0 +1,15 @@
+.cart_item {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.cart_item_img {
+    width: 100px;
+    height: 100px;
+}
+
+.qty_price {
+    display: flex;
+    flex-direction: row;
+}

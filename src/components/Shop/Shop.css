@@ -45,9 +45,3 @@
     padding-top: 20px;
     transition: width 0.5s;
 }
-
-#cart_container button {
-    position: absolute;
-    top: 5px;
-    right: 5px;
-}

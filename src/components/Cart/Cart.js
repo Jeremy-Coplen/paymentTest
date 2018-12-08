@@ -8,16 +8,20 @@ function Cart(props) {
     if(props.cartArray.length) {
         var cartItems = props.cartArray.map(cartItem => {
             return (
-                <CartItem  key={cartItem.id} cartItem={cartItem}/>
+                <CartItem  
+                key={cartItem.id} 
+                cartItem={cartItem} 
+                addToCart={props.addToCart} 
+                removeFromCart={props.removeFromCart}/>
             )
         })
     }
     return (
         <div className={className} style={{width: props.cartWidth}}>
-        <button onClick={() => props.closeCart()}>X</button>
+        <button className="close_button" onClick={() => props.closeCart()}>X</button>
         {cartItems}
-        <p>Subtotal: 0.00</p>
-        <p>Total: 0.00</p>
+        <p>Subtotal: {props.subTotal.toFixed(2)}</p>
+        <p>Total: {props.total.toFixed(2)}</p>
         </div>
     )
 }

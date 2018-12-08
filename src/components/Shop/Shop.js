@@ -77,6 +77,25 @@ class Shop extends Component {
         })
     }
 
+    removeFromCart = (product) => {
+        let arr = [...this.state.cart]
+        let index = arr.findIndex((elem) => elem.id === product.id)
+        if(arr[index].qty === 1) {
+            arr.splice(index, 1)
+            this.setState({
+                cart: arr
+            }, this.cacluateSubTotal)
+        }
+        else {
+            let productCopy = {...arr[index]}
+            productCopy.qty = productCopy.qty - 1
+            arr[index] = productCopy
+            this.setState({
+                cart: arr
+            }, this.cacluateSubTotal)
+        }
+    }
+
     render() {
         console.log("cart", this.state.cart, "sub", this.state.subTotal, "tot", this.state.total)
         const className = this.state.cartShow ? "icon_total_container_none" : "icon_total_container"
@@ -101,8 +120,11 @@ class Shop extends Component {
                         <Cart
                             cartShow={this.state.cartShow}
                             cartArray={this.state.cart}
+                            subTotal={this.state.subTotal}
                             total={this.state.total}
-                            closeCart={this.closeCart} />
+                            closeCart={this.closeCart} 
+                            addToCart={this.addToCart} 
+                            removeFromCart={this.removeFromCart}/>
                     </div>
                 </div>
             </div>

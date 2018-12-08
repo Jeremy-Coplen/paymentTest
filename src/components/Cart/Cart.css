@@ -5,3 +5,9 @@
 .cart_display_none {
     display: none;
 }
+
+.close_button {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+}
