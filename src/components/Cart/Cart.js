@@ -5,6 +5,7 @@ import "./Cart.css"
 
 function Cart(props) {
     const className = props.cartShow ? "cart_display" : "cart_display_none"
+    const buttonClass = props.cartArray.length ? "purchase_button" : "purchase_button_none"
     if(props.cartArray.length) {
         var cartItems = props.cartArray.map(cartItem => {
             return (
@@ -22,6 +23,7 @@ function Cart(props) {
         {cartItems}
         <p>Subtotal: {props.subTotal.toFixed(2)}</p>
         <p>Total: {props.total.toFixed(2)}</p>
+        <button className={buttonClass}>Confirm Purchase</button>
         </div>
     )
 }
