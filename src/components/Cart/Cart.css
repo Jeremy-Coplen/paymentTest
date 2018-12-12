@@ -11,3 +11,15 @@
     top: 5px;
     right: 5px;
 }
+
+.purchase_button {
+    
+}
+
+.purchase_button_none {
+    display: none;
+}
+
+.purchase_button:hover {
+    cursor: pointer;
+}

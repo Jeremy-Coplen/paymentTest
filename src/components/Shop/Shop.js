@@ -22,11 +22,18 @@ class Shop extends Component {
 
     componentDidMount() {
         axios.get("/api/products")
-            .then(res => {
-                this.setState({
-                    products: res.data
-                })
+        .then(res => {
+            this.setState({
+                products: res.data
             })
+        })
+
+        axios.get("/api/cart")
+        .then(res => {
+            this.setState({
+                cart: res.data
+            }, this.cacluateSubTotal)
+        })
     }
 
     addToCart = (product) => {
@@ -48,6 +55,7 @@ class Shop extends Component {
                 cart: arr
             }, this.cacluateSubTotal)
         }
+        axios.put("/api/cart", {cart: arr})
     }
 
     toggleShow = () => {
@@ -65,35 +73,35 @@ class Shop extends Component {
     }
 
     cacluateSubTotal = () => {
+        console.log("hi")
         const reducer = (total, current) => total + (current.price * current.qty)
+        const subTotal = this.state.cart.reduce(reducer, 0)
+        const total = subTotal * 1.047
+
         this.setState({
-            subTotal: this.state.cart.reduce(reducer, 0),
-        }, this.calculateTotal)
-    }
-    
-    calculateTotal = () => {
-        this.setState({
-            total: this.state.subTotal * 1.047
+            subTotal,
+            total
         })
     }
 
     removeFromCart = (product) => {
         let arr = [...this.state.cart]
         let index = arr.findIndex((elem) => elem.id === product.id)
-        if(arr[index].qty === 1) {
+        if (arr[index].qty === 1) {
             arr.splice(index, 1)
             this.setState({
                 cart: arr
             }, this.cacluateSubTotal)
         }
         else {
-            let productCopy = {...arr[index]}
+            let productCopy = { ...arr[index] }
             productCopy.qty = productCopy.qty - 1
             arr[index] = productCopy
             this.setState({
                 cart: arr
             }, this.cacluateSubTotal)
         }
+        axios.put("/api/cart", {cart: arr})
     }
 
     render() {
@@ -122,9 +130,9 @@ class Shop extends Component {
                             cartArray={this.state.cart}
                             subTotal={this.state.subTotal}
                             total={this.state.total}
-                            closeCart={this.closeCart} 
-                            addToCart={this.addToCart} 
-                            removeFromCart={this.removeFromCart}/>
+                            closeCart={this.closeCart}
+                            addToCart={this.addToCart}
+                            removeFromCart={this.removeFromCart} />
                     </div>
                 </div>
             </div>

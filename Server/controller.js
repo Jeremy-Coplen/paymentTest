@@ -26,7 +26,33 @@ const products = [
 ]
 
 module.exports = {
+
     getProducts: (req, res) => {
         res.status(200).send(products)
+    },
+
+    getCart: (req, res) => {
+        try {
+            if (req.session.cart) {
+                res.status(200).send(req.session.cart)
+            }
+            else {
+                res.status(200).send([])
+            }
+        } catch(err) {
+            console.log(err)
+        }
+    },
+
+    updateCart: (req, res) => {
+        const { cart } = req.body
+        
+        try {
+            req.session.cart = cart
+            res.sendStatus(200)
+        }
+        catch(err) {
+            console.log(err)
+        }
     }
 }

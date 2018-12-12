@@ -1,19 +1,12 @@
 import React, { Component } from 'react';
-import { HashRouter as Router } from "react-router-dom"
 import './App.css';
 
-import routes from "./routes"
+import Shop from "./components/Shop/Shop"
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <Router>
-          <div>
-            {routes}
-          </div>
-        </Router>
-      </div>
+      <Shop />
     );
   }
 }
