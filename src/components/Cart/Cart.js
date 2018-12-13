@@ -1,6 +1,8 @@
 import React from "react"
 
 import CartItem from "../CartItem/CartItem"
+import Payment from "../Payment/Payment"
+
 import "./Cart.css"
 
 function Cart(props) {
@@ -23,7 +25,11 @@ function Cart(props) {
         {cartItems}
         <p>Subtotal: {props.subTotal.toFixed(2)}</p>
         <p>Total: {props.total.toFixed(2)}</p>
-        <button className={buttonClass}>Confirm Purchase</button>
+        <button className={buttonClass}
+        onClick={() => props.togglePaymentShow()}>Confirm Purchase</button>
+        <Payment 
+        paymentShow={props.paymentShow}
+        togglePaymentShow={props.togglePaymentShow} />
         </div>
     )
 }

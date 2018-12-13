@@ -16,7 +16,8 @@ class Shop extends Component {
             cart: [],
             cartShow: false,
             subTotal: 0.00,
-            total: 0.00
+            total: 0.00,
+            paymentShow: false
         }
     }
 
@@ -70,6 +71,12 @@ class Shop extends Component {
             cartShow: false
         })
         document.getElementById("cart_container").style.width = "0"
+    }
+
+    togglePaymentShow = () => {
+        this.setState({
+            paymentShow: !this.state.paymentShow
+        })
     }
 
     cacluateSubTotal = () => {
@@ -132,7 +139,9 @@ class Shop extends Component {
                             total={this.state.total}
                             closeCart={this.closeCart}
                             addToCart={this.addToCart}
-                            removeFromCart={this.removeFromCart} />
+                            removeFromCart={this.removeFromCart}
+                            paymentShow={this.state.paymentShow}
+                            togglePaymentShow={this.togglePaymentShow} />
                     </div>
                 </div>
             </div>

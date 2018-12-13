@@ -1,0 +1,34 @@
+.payment {
+    background: rgba(255, 255, 255, .76);
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    overflow: hidden;
+}
+
+.payment_content {
+    background: white;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    width: 50%;
+    top: 20%;
+    left: 25%;
+}
+
+.payment_content button {
+    background: none;
+    width: 5%;
+    border: none;
+}
+
+.payment_content p {
+    width: 10%;
+}
+
+.payment_none {
+    display: none;
+}

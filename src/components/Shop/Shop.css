@@ -45,3 +45,7 @@
     padding-top: 20px;
     transition: width 0.5s;
 }
+
+button:hover {
+    cursor: pointer;
+}
