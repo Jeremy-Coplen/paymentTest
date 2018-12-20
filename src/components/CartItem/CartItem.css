@@ -1,7 +1,9 @@
 .cart_item {
+    background: white;
     display: flex;
     flex-direction: row;
     justify-content: center;
+    margin-bottom: 20px;
 }
 
 .cart_item_img {
@@ -11,5 +13,22 @@
 
 .qty_price {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+    align-items: center;
+}
+
+.qty_price p {
+    margin-bottom: 10px;
+}
+
+.cart_item_info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+}
+
+.cart_buttons button:nth-child(1) {
+    margin-right: 5px;
 }

@@ -4,7 +4,7 @@ const session = require("express-session")
 
 const app = express()
 
-const port = 3005
+const port = 3010
 
 app.use(express.json())
 app.use("/images", express.static(`${__dirname}/../public/Images`))

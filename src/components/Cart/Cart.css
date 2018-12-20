@@ -1,5 +1,7 @@
 .cart_display {
-
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .cart_display_none {
@@ -10,10 +12,6 @@
     position: absolute;
     top: 5px;
     right: 5px;
-}
-
-.purchase_button {
-    
 }
 
 .purchase_button_none {

@@ -9,7 +9,7 @@ function CartItem(props) {
             <div>
                 <img className="cart_item_img" src={cartItem.img} alt="" />
             </div>
-            <div>
+            <div className="cart_item_info">
                 <div className="qty_price">
                     <p>${cartItem.price}</p>
                     <p>Qty: {cartItem.qty}</p>
