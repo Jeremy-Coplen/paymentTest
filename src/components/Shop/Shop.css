@@ -43,11 +43,14 @@
     width: 0;
     position: fixed;
     top: 0;
-    right: 0;
+    right: 17px;
     background: linear-gradient(to bottom right, red, blue);
-    overflow: hidden;
     padding-top: 20px;
     transition: width 0.5s;
+}
+
+button {
+    border: none;
 }
 
 button:hover {

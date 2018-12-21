@@ -7,6 +7,22 @@
     padding-bottom: 10px;
 }
 
+.product p {
+    margin-bottom: 10px;
+}
+
+.product button {
+    background: linear-gradient(to bottom right, red, green);
+    width: 75px;
+    height: 30px;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.product button:hover {
+    background: linear-gradient(to bottom right, green, red);
+}
+
 .product img {
     width: 200px;
     height: 200px;

@@ -4,14 +4,28 @@
     align-items: center;
 }
 
+.cart_display p {
+    margin-bottom: 10px;
+}
+
 .cart_display_none {
     display: none;
 }
 
 .close_button {
+    background: none;
     position: absolute;
     top: 5px;
     right: 5px;
+    border-left: 1px solid black;
+    border-bottom: 1px solid black;
+}
+
+.purchase_button {
+    background: linear-gradient(to bottom right, red, green);
+    width: 120px;
+    height: 30px;
+    border-radius: 5px;
 }
 
 .purchase_button_none {
@@ -19,5 +33,5 @@
 }
 
 .purchase_button:hover {
-    cursor: pointer;
+    background: linear-gradient(to bottom right, green, red);
 }

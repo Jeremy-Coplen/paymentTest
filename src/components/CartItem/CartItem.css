@@ -30,5 +30,18 @@
 }
 
 .cart_buttons button:nth-child(1) {
+    background: rgb(255, 0, 0);
     margin-right: 5px;
+}
+
+.cart_buttons button:nth-child(2) {
+    background: rgb(0, 173, 0);
+}
+
+.cart_buttons button:nth-child(1):hover {
+    background: rgb(220, 0, 0);
+}
+
+.cart_buttons button:nth-child(2):hover {
+    background: rgb(0, 109, 0);
 }
