@@ -4,6 +4,7 @@
     flex-direction: row;
     justify-content: center;
     margin-bottom: 20px;
+    box-shadow: 6px 6px 15px -2px black;
 }
 
 .cart_item_img {

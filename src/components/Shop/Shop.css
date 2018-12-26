@@ -1,5 +1,5 @@
 .shop {
-    background: linear-gradient(to bottom right,green, blue);
+    background: white;
     width: 100vw;
     height: 100vh;
     display: flex;
@@ -44,7 +44,6 @@
     position: fixed;
     top: 0;
     right: 17px;
-    background: linear-gradient(to bottom right, red, blue);
     padding-top: 20px;
     transition: width 0.5s;
 }
