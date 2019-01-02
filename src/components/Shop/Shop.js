@@ -33,7 +33,7 @@ class Shop extends Component {
         .then(res => {
             this.setState({
                 cart: res.data
-            }, this.cacluateSubTotal)
+            }, this.calculateSubTotal)
         })
     }
 
@@ -46,7 +46,7 @@ class Shop extends Component {
             arr.push(newProduct)
             this.setState({
                 cart: arr
-            }, this.cacluateSubTotal)
+            }, this.calculateSubTotal)
         }
         else {
             let newProduct = arr[index]
@@ -54,7 +54,7 @@ class Shop extends Component {
             arr[index] = newProduct
             this.setState({
                 cart: arr
-            }, this.cacluateSubTotal)
+            }, this.calculateSubTotal)
         }
         axios.put("/api/cart", {cart: arr})
     }
@@ -79,8 +79,7 @@ class Shop extends Component {
         })
     }
 
-    cacluateSubTotal = () => {
-        console.log("hi")
+    calculateSubTotal = () => {
         const reducer = (total, current) => total + (current.price * current.qty)
         const subTotal = this.state.cart.reduce(reducer, 0)
         const total = subTotal * 1.047
@@ -98,7 +97,7 @@ class Shop extends Component {
             arr.splice(index, 1)
             this.setState({
                 cart: arr
-            }, this.cacluateSubTotal)
+            }, this.calculateSubTotal)
         }
         else {
             let productCopy = { ...arr[index] }
@@ -106,13 +105,18 @@ class Shop extends Component {
             arr[index] = productCopy
             this.setState({
                 cart: arr
-            }, this.cacluateSubTotal)
+            }, this.calculateSubTotal)
         }
         axios.put("/api/cart", {cart: arr})
     }
 
+    resetCart = () => {
+        this.setState({
+            cart: []
+        })
+    }
+
     render() {
-        console.log("cart", this.state.cart, "sub", this.state.subTotal, "tot", this.state.total)
         const className = this.state.cartShow ? "icon_total_container_none" : "icon_total_container"
         if (this.state.products.length) {
             var products = this.state.products.map(product => {
@@ -141,7 +145,9 @@ class Shop extends Component {
                             addToCart={this.addToCart}
                             removeFromCart={this.removeFromCart}
                             paymentShow={this.state.paymentShow}
-                            togglePaymentShow={this.togglePaymentShow} />
+                            togglePaymentShow={this.togglePaymentShow} 
+                            calculateSubTotal={this.calculateSubTotal} 
+                            resetCart={this.resetCart} />
                     </div>
                 </div>
             </div>

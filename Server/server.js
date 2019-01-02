@@ -29,6 +29,8 @@ const c = require("./controller")
 app.get("/api/products", c.getProducts)
 app.get("/api/cart", c.getCart)
 app.put("/api/cart", c.updateCart)
+app.post("/api/payment", c.payment)
+app.delete("/api/cart", c.resetCart)
 
 
 app.listen(port, () => console.log(`listening on port ${port}`))

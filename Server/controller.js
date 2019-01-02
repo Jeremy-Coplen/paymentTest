@@ -1,3 +1,5 @@
+const stripe = require("stripe")(process.env.STRIPE_SECRET)
+
 const products = [
     {
         id: 0,
@@ -53,6 +55,44 @@ module.exports = {
         }
         catch(err) {
             console.log(err)
+            res.sendStatus(500)
+        }
+    },
+
+    resetCart: (req, res) => {
+        try {
+            req.session.cart = []
+            res.sendStatus(200)
+        }
+        catch(err) {
+            console.log(err)
+            res.sendStatus(500)
+        }
+    },
+
+    payment: async (req, res) => {
+        const { token: {id}, amount } = req.body
+
+        try {
+            stripe.charges.create({
+                amount,
+                currency: "usd",
+                source: id,
+                description: "Test charge from stripeTest"
+            },
+            (err, charge) => {
+                if(err) {
+                    console.log(err)
+                    return res.status(500).send(err)
+                }
+                else {
+                    return res.status(200).send(charge)
+                }
+            })
+        }
+        catch(err) {
+            console.log(err)
+            res.sendStatus(500)
         }
     }
 }

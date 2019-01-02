@@ -1,5 +1,4 @@
 import React from "react"
-import { Elements, StripeProvider } from "react-stripe-elements"
 
 import CartItem from "../CartItem/CartItem"
 import Payment from "../Payment/Payment"
@@ -28,13 +27,12 @@ function Cart(props) {
             <p>Total: {props.total.toFixed(2)}</p>
             <button className={buttonClass}
                 onClick={() => props.togglePaymentShow()}>Confirm Purchase</button>
-            <StripeProvider apiKey="pk_test_TYooMQauvdEDq54NiTphI7jx">
-                <Elements>
-                    <Payment
-                        paymentShow={props.paymentShow}
-                        togglePaymentShow={props.togglePaymentShow} />
-                </Elements>
-            </StripeProvider>
+            <Payment
+                paymentShow={props.paymentShow}
+                togglePaymentShow={props.togglePaymentShow}
+                total={props.total} 
+                calculateSubTotal={props.calculateSubTotal} 
+                resetCart={props.resetCart} />
         </div>
     )
 }
