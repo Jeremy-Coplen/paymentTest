@@ -1,4 +1,5 @@
 const stripe = require("stripe")(process.env.STRIPE_SECRET)
+const nodemailer = require("nodemailer")
 
 const products = [
     {
@@ -94,5 +95,18 @@ module.exports = {
             console.log(err)
             res.sendStatus(500)
         }
+    },
+
+    customerConfirmation: (req, res) => {
+        const cartOutput = req.body.cart.map((product) => {
+            return `
+                <p>x${product.qty} ${product.name} $${product.price.toFixed(2)}</p>
+            `
+        })
+        const output = `
+            <p>Thank you for ordering!<p>
+            ${cartOutput}
+            <h3>Total: $${req.body.total.toFixed(2)}</h3>
+        `
     }
 }
