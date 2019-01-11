@@ -31,7 +31,6 @@ app.get("/api/cart", c.getCart)
 app.put("/api/cart", c.updateCart)
 app.post("/api/payment", c.payment)
 app.delete("/api/cart", c.resetCart)
-app.post("/api/confirmation-customer", c.customerConfirmation)
 
 
 app.listen(port, () => console.log(`listening on port ${port}`))

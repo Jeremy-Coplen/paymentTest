@@ -1,5 +1,6 @@
 const stripe = require("stripe")(process.env.STRIPE_SECRET)
 const nodemailer = require("nodemailer")
+const smtpTransport = require("nodemailer-smtp-transport")
 
 const products = [
     {
@@ -72,41 +73,56 @@ module.exports = {
     },
 
     payment: async (req, res) => {
-        const { token: {id}, amount } = req.body
+        const { token, amount } = req.body
 
-        try {
-            stripe.charges.create({
-                amount,
-                currency: "usd",
-                source: id,
-                description: "Test charge from stripeTest"
-            },
-            (err, charge) => {
-                if(err) {
-                    console.log(err)
-                    return res.status(500).send(err)
-                }
-                else {
-                    return res.status(200).send(charge)
-                }
-            })
-        }
-        catch(err) {
-            console.log(err)
-            res.sendStatus(500)
-        }
-    },
-
-    customerConfirmation: (req, res) => {
-        const cartOutput = req.body.cart.map((product) => {
-            return `
-                <p>x${product.qty} ${product.name} $${product.price.toFixed(2)}</p>
-            `
-        })
-        const output = `
+        stripe.charges.create({
+            amount: Math.round(amount * 100),
+            currency: "usd",
+            source: token.id,
+            description: "Test charge from stripeTest"
+        },
+        (err, charge) => {
+            if(err) {
+                console.log(err)
+                return res.status(500).send(err)
+            }
+            else {
+                console.log(token)
+            const output = `
             <p>Thank you for ordering!<p>
-            ${cartOutput}
-            <h3>Total: $${req.body.total.toFixed(2)}</h3>
-        `
+            <h3>Total: $${amount.toFixed(2)}</h3>
+            `
+
+            let transporter = nodemailer.createTransport({
+                service: "gmail",
+                host: "smtp.gmail.com",
+                secure: false, // true for 465, false for other ports
+                auth: {
+                    user: process.env.AEL, // generated ethereal user
+                    pass: process.env.AELP // generated ethereal password
+                },
+                tls: { rejectUnauthorized: false }
+                });
+                    
+                // setup email data with unicode symbols
+                let mailOptions = {
+                from: `"Jeremy Coplen" <${process.env.AEL}>`, // sender address
+                to: `${token.email}`, // list of receivers
+                subject: "Order Confirmation", // Subject line
+                html: output // html body
+                };
+                    
+                // send mail with defined transport object
+                transporter.sendMail(mailOptions, (error, info) => {
+                    if(error) {
+                        console.log(error)
+                    }
+                    console.log("Message sent: %s", info.messageId);
+                    console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+                })
+
+                return res.status(200).send(charge)
+            }
+        })
     }
 }
