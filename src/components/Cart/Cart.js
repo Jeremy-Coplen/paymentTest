@@ -32,7 +32,9 @@ function Cart(props) {
                 togglePaymentShow={props.togglePaymentShow}
                 total={props.total} 
                 calculateSubTotal={props.calculateSubTotal} 
-                resetCart={props.resetCart} />
+                resetCart={props.resetCart}
+                cart={props.cartArray}
+                closeCart={props.closeCart} />
         </div>
     )
 }

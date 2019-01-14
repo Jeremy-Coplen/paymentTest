@@ -73,7 +73,7 @@ module.exports = {
     },
 
     payment: async (req, res) => {
-        const { token, amount } = req.body
+        const { token, amount, cart } = req.body
 
         stripe.charges.create({
             amount: Math.round(amount * 100),
@@ -87,9 +87,16 @@ module.exports = {
                 return res.status(500).send(err)
             }
             else {
-                console.log(token)
+            const cartOutput = cart.map((product) => {
+                return `
+                <p>${product.name}</p>
+                <p>qty: ${product.qty}</p>
+                <p>price per unit: $${product.price.toFixed(2)}</p>
+                `
+            })
             const output = `
             <p>Thank you for ordering!<p>
+            ${cartOutput}
             <h3>Total: $${amount.toFixed(2)}</h3>
             `
 

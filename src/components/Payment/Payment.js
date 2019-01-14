@@ -15,12 +15,13 @@ class Payment extends Component {
 
     onToken = async (token) => {
         token.card = void 0
-        let tokenRes = await axios.post("/api/payment", {token, amount: this.props.total})
+        let tokenRes = await axios.post("/api/payment", {token, amount: this.props.total, cart: this.props.cart})
 
         await axios.delete("/api/cart")
         this.props.resetCart()
         this.props.calculateSubTotal()
         this.props.togglePaymentShow()
+        this.props.closeCart()
         console.log(tokenRes)
     }
 
