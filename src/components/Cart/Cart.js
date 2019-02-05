@@ -26,7 +26,7 @@ function Cart(props) {
             <p>Subtotal: {props.subTotal.toFixed(2)}</p>
             <p>Total: {props.total.toFixed(2)}</p>
             <button className={buttonClass}
-                onClick={() => props.togglePaymentShow()}>Confirm Purchase</button>
+                onClick={() => props.togglePaymentShow("confirm")}>Confirm Purchase</button>
             <Payment
                 paymentShow={props.paymentShow}
                 togglePaymentShow={props.togglePaymentShow}

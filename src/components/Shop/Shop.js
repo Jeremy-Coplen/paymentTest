@@ -73,7 +73,14 @@ class Shop extends Component {
         document.getElementById("cart_container").style.width = "0"
     }
 
-    togglePaymentShow = () => {
+    togglePaymentShow = async (type) => {
+        if(type === "confirm") {
+            const order = await axios.post("/api/confirm", {cart: [...this.state.cart]})
+            console.log(order)
+        }
+        else {
+            await axios.delete("/api/cancel")
+        }
         this.setState({
             paymentShow: !this.state.paymentShow
         })

@@ -15,7 +15,7 @@ class Payment extends Component {
 
     onToken = async (token) => {
         token.card = void 0
-        let tokenRes = await axios.post("/api/payment", {token, amount: this.props.total, cart: this.props.cart})
+        let tokenRes = await axios.post("/api/payment", {token, cart: this.props.cart})
 
         await axios.delete("/api/cart")
         this.props.resetCart()
@@ -30,7 +30,7 @@ class Payment extends Component {
         return (
             <div className={className}>
                 <div className="payment_content">
-                    <button onClick={() => this.props.togglePaymentShow()}>X</button>
+                    <button onClick={() => this.props.togglePaymentShow("cancel")}>X</button>
                     <div>
                         <StripeCheckout
                         name="Stripe Candy Test"
