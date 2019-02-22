@@ -55,7 +55,7 @@ const products = [
     {
         id: 7,
         name: "Snickers KS",
-        img: "http://localhost:3010/imagessnickers.jpg",
+        img: "http://localhost:3010/images/Snickers.jpg",
         price: 1.22,
         sku: "sku_EPP5KTXYqb2N6O"
     }
@@ -107,7 +107,7 @@ module.exports = {
         }
     },
 
-    confirmOrder : (req, res) => {
+    confirmOrder : async (req, res) => {
         const { cart } = req.body
 
         try {
@@ -115,14 +115,28 @@ module.exports = {
                 return {
                     type: "sku",
                     parent: elem.sku,
-                    quantity: elem.quantity
+                    quantity: elem.qty
                 }
             })
 
-            const order = stripe.orders.create({
+            const stripeShipping = {
+                name: "Jeremy Coplen",
+                address: {
+                    line1: "1234 Main Street",
+                    city: "Provo",
+                    state: "UT",
+                    postal_code: 84064,
+                    country: "US"
+                }
+            }
+
+            console.log("stripe cart", stripeCart)
+
+            const order = await stripe.orders.create({
                 currency: "usd",
                 email: "jeremy.coplen@example.com",
-                items: stripeCart
+                items: stripeCart,
+                shipping: stripeShipping
             })
 
             orderId = order.id
@@ -134,14 +148,13 @@ module.exports = {
         }
     },
 
-    cancelOrder : (req, res) => {
-        console.log("cancel order hit")
+    cancelOrder : async (req, res) => {
         try {
             if(orderId === "") {
                 res.sendStatus(500)
             }
             else {
-                stripe.orders.update(orderId, {
+                await stripe.orders.update(orderId, {
                     status: "canceled"
                 })
                 orderId = ""
@@ -156,50 +169,69 @@ module.exports = {
     payment: async (req, res) => {
         const { token, amount, cart } = req.body
 
-        const payment = stripe.orders.pay(orderId, {
-            source: token.id
-        })
-        console.log(payment)
-
-        // const cartOutput = cart.map((product) => {
-        //     return `
-        //     <p>${product.name}</p>
-        //     <p>qty: ${product.qty}</p>
-        //         <p>price per unit: $${product.price.toFixed(2)}</p>
-        //         `
-        // })
-        // const output = `
-        // <p>Thank you for ordering!<p>
-        // ${cartOutput}
-        // <h3>Total: $${amount.toFixed(2)}</h3>
-        // `
-
-        // let transporter = nodemailer.createTransport({
-        //     service: "gmail",
-        //     host: "smtp.gmail.com",
-        //     ecure: false, // true for 465, false for other ports
-        //     auth: {
-        //         user: process.env.AEL, // generated ethereal user
-        //         pass: process.env.AELP // generated ethereal password
-        //     },
-        //     tls: { rejectUnauthorized: false }
-        //     });
-                    
-        // // setup email data with unicode symbols
-        // let mailOptions = {
-        // from: `"Jeremy Coplen" <${process.env.AEL}>`, // sender address
-        // to: `${token.email}`, // list of receivers
-        // subject: "Order Confirmation", // Subject line
-        // html: output // html body
-        // };
-                    
-        // // send mail with defined transport object
-        // transporter.sendMail(mailOptions, (error, info) => {
-        //     if(error) {
-        //         console.log(error)
-        //     }
-        //     console.log("Message sent: %s", info.messageId);
-        //     console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
-        // })
+        try {
+            await stripe.orders.pay(orderId, {
+                source: token.id
+            })
+    
+            const cartOutput = cart.map((product) => {
+                return `
+                <p>${product.name}</p>
+                <p>qty: ${product.qty}</p>
+                    <p>price per unit: $${product.price.toFixed(2)}</p>
+                    `
+            })
+            const output = `
+            <p>Thank you for ordering!<p>
+            ${cartOutput}
+            <h3>Total: $${amount.toFixed(2)}</h3>
+            `
+    
+            let transporter = nodemailer.createTransport({
+                service: "gmail",
+                host: "smtp.gmail.com",
+                ecure: false, // true for 465, false for other ports
+                auth: {
+                    user: process.env.AEL, // generated ethereal user
+                    pass: process.env.AELP // generated ethereal password
+                },
+                tls: { rejectUnauthorized: false }
+                });
+                        
+            // setup email data with unicode symbols
+            let mailOptions = {
+            from: `"Jeremy Coplen" <${process.env.AEL}>`, // sender address
+            to: `${token.email}`, // list of receivers
+            subject: "Order Confirmation", // Subject line
+            html: output // html body
+            };
+                        
+            // send mail with defined transport object
+            transporter.sendMail(mailOptions, (error, info) => {
+                if(error) {
+                    console.log(error)
+                }
+                console.log("Message sent: %s", info.messageId);
+                console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+                res.sendStatus(200)
+            })
+        }
+        catch(err) {
+            console.log(err)
+            res.sendStatus(500)
+        }
+    },
+    fulfill: async (req, res) => {
+        if(orderId === "") {
+            res.sendStatus(500)
+        }
+        else {
+            console.log("hit")
+            await stripe.orders.update(orderId, {
+                status: "fulfilled"
+            })
+            orderId = ""
+            res.sendStatus(200)
+        }
     }
 }

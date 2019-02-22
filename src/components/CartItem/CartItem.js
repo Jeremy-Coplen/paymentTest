@@ -11,6 +11,7 @@ function CartItem(props) {
             </div>
             <div className="cart_item_info">
                 <div className="qty_price">
+                    <p>{cartItem.name}</p>
                     <p>${cartItem.price}</p>
                     <p>Qty: {cartItem.qty}</p>
                 </div>

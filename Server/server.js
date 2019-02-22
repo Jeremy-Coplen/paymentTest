@@ -33,6 +33,7 @@ app.post("/api/confirm", c.confirmOrder)
 app.delete("/api/cancel", c.cancelOrder)
 app.post("/api/payment", c.payment)
 app.delete("/api/cart", c.resetCart)
+app.put("/api/fulfill", c.fulfill)
 
 
 app.listen(port, () => console.log(`listening on port ${port}`))

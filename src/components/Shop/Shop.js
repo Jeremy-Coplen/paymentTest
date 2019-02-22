@@ -75,15 +75,22 @@ class Shop extends Component {
 
     togglePaymentShow = async (type) => {
         if(type === "confirm") {
-            const order = await axios.post("/api/confirm", {cart: [...this.state.cart]})
-            console.log(order)
+            await axios.post("/api/confirm", {cart: [...this.state.cart]})
+            this.setState({
+                paymentShow: !this.state.paymentShow
+            })
+        }
+        else if(type === "cancel") {
+            await axios.delete("/api/cancel")
+            this.setState({
+                paymentShow: !this.state.paymentShow
+            })
         }
         else {
-            await axios.delete("/api/cancel")
+            this.setState({
+                paymentShow: !this.state.paymentShow
+            })
         }
-        this.setState({
-            paymentShow: !this.state.paymentShow
-        })
     }
 
     calculateSubTotal = () => {
@@ -123,6 +130,17 @@ class Shop extends Component {
         })
     }
 
+    fulfillOrder = async () => {
+        try {
+            await axios.put("/api/fulfill")
+        }
+        catch(err) {
+            if(err.response.status === 500) {
+                alert("No Recent Order")
+            }
+        }
+    }
+
     render() {
         const className = this.state.cartShow ? "icon_total_container_none" : "icon_total_container"
         if (this.state.products.length) {
@@ -135,6 +153,7 @@ class Shop extends Component {
         return (
             <div className="shop">
                 <div className={className}>
+                    <button onClick={this.fulfillOrder}>fulfill Recent Order</button>
                     <img id="cart_img" onClick={this.toggleShow} src={cartIcon} alt="" />
                     <p>${this.state.total.toFixed(2)}</p>
                 </div>
